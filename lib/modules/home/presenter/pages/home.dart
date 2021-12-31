@@ -21,14 +21,11 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-  
-  
     dao.read().then((value) {
       if (value != null) {
         print(value.length);
       }
     });
-  
 
     return Scaffold(
         appBar: AppBar(
@@ -54,8 +51,10 @@ class _HomePageState extends State<HomePage> {
         body: PageView(
           controller: widget.controller.pageContoller,
           physics: const NeverScrollableScrollPhysics(),
-          children: const [
-            HomeSubpage(),
+          children: [
+            HomeSubpage(
+              controller: widget.controller,
+            ),
             GoalsSubpage(),
           ],
         ),

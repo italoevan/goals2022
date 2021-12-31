@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:goals_2022/domain/entities/goal.dart';
+import 'package:goals_2022/modules/home/presenter/pages/home_controller.dart';
 import 'package:goals_2022/shared/themes/app_theme.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
 class HomeSubpage extends StatefulWidget {
-  const HomeSubpage({Key? key}) : super(key: key);
+  final HomeController controller;
+  const HomeSubpage({Key? key, required this.controller}) : super(key: key);
 
   @override
   State<HomeSubpage> createState() => _HomeSubpageState();
@@ -31,7 +34,7 @@ class _HomeSubpageState extends State<HomeSubpage> {
               const SizedBox(
                 height: 10,
               ),
-              _buildProgressWidget(context),
+              _buildProgressWidget(context, widget.controller),
             ],
           ),
         )
@@ -40,7 +43,7 @@ class _HomeSubpageState extends State<HomeSubpage> {
   }
 }
 
-Widget _buildProgressWidget(BuildContext context) {
+Widget _buildProgressWidget(BuildContext context, HomeController controller) {
   return Container(
     width: MediaQuery.of(context).size.width,
     height: 300,
@@ -57,8 +60,20 @@ Widget _buildProgressWidget(BuildContext context) {
             height: 55,
           ),
           radius: 100,
-          percent: 0.29,
-        )
+          percent: 0.9,
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        FutureBuilder(
+            future: controller.read(),
+            builder: (context, AsyncSnapshot<List<Goal>?> snapshot) => Text(
+                  "Goals ${snapshot.data!.length}",
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyText1
+                      ?.copyWith(color: Colors.white, fontSize: 20),
+                ))
       ],
     ),
   );
