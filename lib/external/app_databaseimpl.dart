@@ -4,12 +4,12 @@ import 'package:sqflite/sqflite.dart';
 import 'package:sqflite_common/sqlite_api.dart';
 
 class AppDatabaseImpl implements AppDatabase {
-
   @override
-  Future<Database> getDatabase({required String onCreate,required databaseName}) async {
+  Future<Database> getDatabase(
+      {required String onCreate, required databaseName}) async {
     String path = join(databaseName);
-    Database database =
-        await openDatabase(path, onCreate: (database, version) async {
+    Database database = await openDatabase(path, version: 1,
+        onCreate: (database, version) async {
       await database.execute(onCreate);
     });
     return database;

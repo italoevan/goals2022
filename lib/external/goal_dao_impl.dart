@@ -4,23 +4,29 @@ import 'package:goals_2022/infra/datasource/goal_dao.dart';
 import 'package:sqflite/sqflite.dart';
 
 class GoalDaoImpl implements GoalDao {
-  Database? _database;
+  Future<Database>? _database;
   final String table = "goals";
 
   // ignore: non_constant_identifier_names
-  GoalDao() {
-    AppDatabaseImpl()
-        .getDatabase(
-            onCreate:
-                "CREATE TABLE goals (id int NOT NULL AUTOINCREMENT PRIMARY "
-                "KEY, name varchar(255) NOT NULL,"
-                "motivationalPhrase varchar(255), icon varchar(255) )",
-            databaseName: table)
-        .then((value) => _database = value);
+  GoalDaoImpl() {
+    _database = AppDatabaseImpl().getDatabase(
+        onCreate: "CREATE TABLE $table (id INTEGER PRIMARY KEY AUTOINCREMENT,"
+            "done int"
+            ", name varchar(255) NOT NULL,"
+            "motivationalPhrase varchar(255), icon varchar(255) )",
+        databaseName: table);
+  }
+
+  Future insert(Goal goal) async {
+    Database? db = await _database;
+
+    if (db != null) {
+      await db.insert(table, goal.toMap());
+    }
   }
 
   Future<List<Goal>?> read() async {
-    Database? db = _database;
+    Database? db = await _database;
     List<Map<String, Object?>>? response;
 
     if (db != null) {

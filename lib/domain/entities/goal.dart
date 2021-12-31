@@ -5,11 +5,11 @@ class Goal {
   bool? done;
   String name;
   String? motivationalPhrase;
-  IconData? icon;
+  String? icon;
 
   Goal.fromMap(Map<String, dynamic> map)
       : id = map['id'],
-        done = map['done'],
+        done = map['done'] == 1 ? true : false,
         name = map['name'],
         motivationalPhrase = map['motivationalPhrase'],
         icon = map['icon'];
@@ -21,8 +21,10 @@ class Goal {
       required this.motivationalPhrase});
 
   Map<String, dynamic> toMap() {
+    bool? _done = done;
+
     return {
-      "done": this.done,
+      "done": _done != null && _done ? 1 : 0,
       "name": this.name,
       "motivationalPhrase": this.motivationalPhrase,
       "icon": this.icon
