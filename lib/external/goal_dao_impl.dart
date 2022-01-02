@@ -17,6 +17,7 @@ class GoalDaoImpl implements GoalDao {
         databaseName: table);
   }
 
+  @override
   Future insert(Goal goal) async {
     Database? db = await _database;
 
@@ -25,6 +26,7 @@ class GoalDaoImpl implements GoalDao {
     }
   }
 
+  @override
   Future<List<Goal>?> read() async {
     Database? db = await _database;
     List<Map<String, Object?>>? response;

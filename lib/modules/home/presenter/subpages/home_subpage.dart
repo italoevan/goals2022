@@ -67,13 +67,18 @@ Widget _buildProgressWidget(BuildContext context, HomeController controller) {
         ),
         FutureBuilder(
             future: controller.read(),
-            builder: (context, AsyncSnapshot<List<Goal>?> snapshot) => Text(
+            builder: (context, AsyncSnapshot<List<Goal>?> snapshot) {
+              if (snapshot.connectionState == ConnectionState.done) {
+                return Text(
                   "Goals ${snapshot.data!.length}",
                   style: Theme.of(context)
                       .textTheme
                       .bodyText1
                       ?.copyWith(color: Colors.white, fontSize: 20),
-                ))
+                );
+              }
+              return const Text("");
+            })
       ],
     ),
   );
