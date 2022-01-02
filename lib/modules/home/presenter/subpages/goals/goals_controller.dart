@@ -31,7 +31,21 @@ class GoalsControllerImpl extends GetxController implements GoalsController {
 
   @override
   Future saveNewGoal() async {
+    _mount();
     await dao.insert(goal!);
+    _clean();
+  }
+
+  void _mount() {
+    goal = Goal(
+        name: nameController.text,
+        motivationalPhrase:
+            motivationalPhrase.text == "" ? null : motivationalPhrase.text);
+  }
+
+  void _clean() {
+    motivationalPhrase.clear();
+    nameController.clear();
   }
 
   @override

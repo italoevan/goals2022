@@ -19,7 +19,6 @@ class AppTheme extends ChangeNotifier {
 
   getPersistedValue() async {
     shared = await SharedPreferences.getInstance();
-    persistedValue = (shared.get("isDark") as bool);
 
     if (persistedValue == null) {
       persistedValue = false;

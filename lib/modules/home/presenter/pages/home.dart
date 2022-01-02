@@ -25,6 +25,10 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
+    GoalDaoImpl dao = GoalDaoImpl();
+
+    dao.read().then((value) => print(value));
+
     return Scaffold(
         appBar: AppBar(
           title: const Text("2022 Goals"),
@@ -45,7 +49,14 @@ class _HomePageState extends State<HomePage> {
                         ),
                         value: AppTheme.appTheme.isDark,
                         onToggle: (v) => AppTheme.appTheme.changeTheme()))
-                : IconButton(onPressed: () => widget.goalsController.saveNewGoal(), icon: const Icon(Icons.save)))
+                : IconButton(
+                    onPressed: () {
+                      if (widget.goalsController.formKey.currentState!
+                          .validate()) {
+                        widget.goalsController.saveNewGoal();
+                      }
+                    },
+                    icon: const Icon(Icons.save)))
           ],
         ),
         body: PageView(

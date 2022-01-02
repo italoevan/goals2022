@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:goals_2022/domain/entities/goal.dart';
+import 'package:goals_2022/modules/home/presenter/components/subpages/home/goal_component.dart';
 import 'package:goals_2022/modules/home/presenter/pages/home_controller.dart';
 import 'package:goals_2022/shared/themes/app_theme.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
@@ -35,12 +36,57 @@ class _HomeSubpageState extends State<HomeSubpage> {
                 height: 10,
               ),
               _buildProgressWidget(context, widget.controller),
+              const SizedBox(
+                height: 16,
+              ),
+              FutureBuilder(
+                  future: widget.controller.read(),
+                  builder: (context, snapshot) {
+                    switch (snapshot.connectionState) {
+                      case ConnectionState.none:
+                        return Container();
+                        break;
+                      case ConnectionState.waiting:
+                        return Container();
+                        break;
+                      case ConnectionState.active:
+                        return Container();
+                        break;
+                      case ConnectionState.done:
+                        return snapshot.data != null
+                            ? _buildGoalsList(snapshot.data as List<Goal>?)
+                            : Container();
+                        break;
+                    }
+
+                    return Container();
+                  })
             ],
           ),
         )
       ],
     );
   }
+}
+
+Widget _buildGoalsList(List<Goal>? list) {
+  if (list != null && list.isEmpty) {
+    return const Text("Empty Goals");
+  }
+
+  return Expanded(
+    child: ListView.separated(
+        itemCount: list!.length,
+        separatorBuilder: (context, index) => const Divider(
+              color: Colors.transparent,
+            ),
+        itemBuilder: (context, index) {
+          if (list != null) {
+            return GoalComponent(list[index]);
+          }
+          return Container();
+        }),
+  );
 }
 
 Widget _buildProgressWidget(BuildContext context, HomeController controller) {
@@ -68,15 +114,18 @@ Widget _buildProgressWidget(BuildContext context, HomeController controller) {
         FutureBuilder(
             future: controller.read(),
             builder: (context, AsyncSnapshot<List<Goal>?> snapshot) {
-              if (snapshot.connectionState == ConnectionState.done) {
-                return Text(
-                  "Goals ${snapshot.data!.length}",
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyText1
-                      ?.copyWith(color: Colors.white, fontSize: 20),
-                );
+              if (snapshot.data != null) {
+                if (snapshot.connectionState == ConnectionState.done) {
+                  return Text(
+                    "Goals ${snapshot.data!.length}",
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyText1
+                        ?.copyWith(color: Colors.white, fontSize: 20),
+                  );
+                }
               }
+
               return const Text("");
             })
       ],

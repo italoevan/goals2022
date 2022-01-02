@@ -5,7 +5,7 @@ import 'package:goals_2022/modules/home/presenter/subpages/goals/goals_controlle
 class GoalsSubpage extends StatelessWidget {
   final GoalsController controller;
 
-  GoalsSubpage({
+  const GoalsSubpage({
     Key? key,
     required this.controller,
   }) : super(key: key);
@@ -28,7 +28,7 @@ class GoalsSubpage extends StatelessWidget {
                   height: 16,
                 ),
                 TextFormField(
-                  controller: controller.nameController,
+                  controller: controller.motivationalPhrase,
                   decoration:
                       const InputDecoration(label: Text("Motivational phrase")),
                 ),

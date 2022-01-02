@@ -12,8 +12,9 @@ class GoalDaoImpl implements GoalDao {
     _database = AppDatabaseImpl().getDatabase(
         onCreate: "CREATE TABLE $table (id INTEGER PRIMARY KEY AUTOINCREMENT,"
             "done int"
-            ", name varchar(255) NOT NULL,"
-            "motivationalPhrase varchar(255), icon varchar(255) )",
+            ",name varchar(255) NOT NULL,"
+            "motivationalPhrase varchar(255)"
+            ")",
         databaseName: table);
   }
 
