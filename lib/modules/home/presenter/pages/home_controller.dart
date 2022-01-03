@@ -4,7 +4,8 @@ import 'package:goals_2022/domain/entities/goal.dart';
 import 'package:goals_2022/infra/datasource/goal_dao.dart';
 import 'package:goals_2022/modules/home/presenter/pages/home_state.dart';
 
-abstract class HomeController {
+abstract class HomeController  {
+  void refreshPage();
   abstract PageController pageContoller;
   void changePage(int index);
   Future<List<Goal>?> read();
@@ -14,7 +15,10 @@ abstract class HomeController {
 class HomeControllerImpl extends GetxController implements HomeController {
   final GoalDao dao;
 
-  HomeControllerImpl(this.dao);
+  @override
+  void refreshPage() async => await read();
+
+  HomeControllerImpl(this.dao) {}
 
   var index = 0.obs;
 
@@ -41,4 +45,6 @@ class HomeControllerImpl extends GetxController implements HomeController {
     var value = await dao.read();
     return value;
   }
+
+
 }

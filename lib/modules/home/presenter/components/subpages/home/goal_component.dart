@@ -14,6 +14,12 @@ class GoalComponent extends StatelessWidget {
       padding: const EdgeInsets.all(4),
       height: 70,
       decoration: BoxDecoration(
+          boxShadow: const [
+            BoxShadow(
+              color: Colors.black,
+              blurRadius: 1,
+            )
+          ],
           gradient: const LinearGradient(
               begin: Alignment.centerRight,
               end: Alignment.centerLeft,
@@ -40,11 +46,20 @@ class GoalComponent extends StatelessWidget {
           children: [
             Text(
               goal.name,
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyText1!
-                  .copyWith(color: Colors.white),
-            )
+              style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 17),
+            ),
+            goal.motivationalPhrase != null
+                ? Text(
+                    goal.motivationalPhrase!,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyText1!
+                        .copyWith(color: Colors.white),
+                  )
+                : const SizedBox()
           ],
         )
       ]),

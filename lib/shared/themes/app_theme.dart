@@ -3,7 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class AppTheme extends ChangeNotifier {
   AppTheme() {
-    getPersistedValue();
+    _getPersistedValue();
   }
   late SharedPreferences shared;
   bool? persistedValue;
@@ -17,8 +17,9 @@ class AppTheme extends ChangeNotifier {
     notifyListeners();
   }
 
-  getPersistedValue() async {
+  _getPersistedValue() async {
     shared = await SharedPreferences.getInstance();
+    persistedValue = (shared.get("isDark") as bool);
 
     if (persistedValue == null) {
       persistedValue = false;
