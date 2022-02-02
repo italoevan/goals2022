@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:goals_2022/domain/entities/goal.dart';
 import 'package:goals_2022/modules/home/presenter/components/subpages/home/goal_component.dart';
 import 'package:goals_2022/modules/home/presenter/pages/home_controller.dart';
@@ -14,6 +15,12 @@ class HomeSubpage extends StatefulWidget {
 }
 
 class _HomeSubpageState extends State<HomeSubpage> {
+  @override
+  void initState() {
+    widget.controller.refreshPage();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -39,28 +46,9 @@ class _HomeSubpageState extends State<HomeSubpage> {
               const SizedBox(
                 height: 16,
               ),
-              FutureBuilder(
-                  future: widget.controller.read(),
-                  builder: (context, snapshot) {
-                    switch (snapshot.connectionState) {
-                      case ConnectionState.none:
-                        return Container();
-                        break;
-                      case ConnectionState.waiting:
-                        return Container();
-                        break;
-                      case ConnectionState.active:
-                        return Container();
-                        break;
-                      case ConnectionState.done:
-                        return snapshot.data != null
-                            ? _buildGoalsList(snapshot.data as List<Goal>?)
-                            : Container();
-                        break;
-                    }
-
-                    return Container();
-                  })
+              Obx(() => widget.controller.isLoading
+                  ? Container()
+                  : _buildGoalsList(widget.controller.goals)),
             ],
           ),
         )
@@ -76,15 +64,14 @@ Widget _buildGoalsList(List<Goal>? list) {
 
   return Expanded(
     child: ListView.separated(
+        primary: false,
+        shrinkWrap: true,
         itemCount: list!.length,
         separatorBuilder: (context, index) => const Divider(
               color: Colors.transparent,
             ),
         itemBuilder: (context, index) {
-          if (list != null) {
-            return GoalComponent(list[index]);
-          }
-          return Container();
+          return GoalComponent(list[index]);
         }),
   );
 }
@@ -111,23 +98,15 @@ Widget _buildProgressWidget(BuildContext context, HomeController controller) {
         const SizedBox(
           height: 10,
         ),
-        FutureBuilder(
-            future: controller.read(),
-            builder: (context, AsyncSnapshot<List<Goal>?> snapshot) {
-              if (snapshot.data != null) {
-                if (snapshot.connectionState == ConnectionState.done) {
-                  return Text(
-                    "Goals ${snapshot.data!.length}",
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyText1
-                        ?.copyWith(color: Colors.white, fontSize: 20),
-                  );
-                }
-              }
-
-              return const Text("");
-            })
+        Obx(() => controller.isLoading
+            ? const Text("")
+            : Text(
+                "Goals ${controller.goals.length}",
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1
+                    ?.copyWith(color: Colors.white, fontSize: 20),
+              )),
       ],
     ),
   );

@@ -27,8 +27,8 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     GoalDaoImpl dao = GoalDaoImpl();
 
+  
     dao.read().then((value) => print(value));
-
     return Scaffold(
         appBar: AppBar(
           title: const Text("2022 Goals"),
