@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:get/get.dart';
-import 'package:goals_2022/domain/entities/goal.dart';
 import 'package:goals_2022/external/goal_dao_impl.dart';
-import 'package:goals_2022/modules/home/presenter/pages/home_controller.dart';
+import 'package:goals_2022/modules/home/presenter/pages/home/home_controller.dart';
 import 'package:goals_2022/modules/home/presenter/subpages/goals/goals_controller.dart';
 import 'package:goals_2022/modules/home/presenter/subpages/goals/goals_subpage.dart';
 import 'package:goals_2022/modules/home/presenter/subpages/home_subpage.dart';
@@ -23,11 +22,10 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  GoalDaoImpl dao = GoalDaoImpl();
+
   @override
   Widget build(BuildContext context) {
-    GoalDaoImpl dao = GoalDaoImpl();
-
-  
     dao.read().then((value) => print(value));
     return Scaffold(
         appBar: AppBar(
@@ -60,7 +58,7 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
         body: PageView(
-          controller: widget.controller.pageContoller,
+          controller: widget.controller.pageController,
           physics: const NeverScrollableScrollPhysics(),
           children: [
             HomeSubpage(

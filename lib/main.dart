@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
               theme: AppTheme.appTheme.isDark
                   ? ThemeData.dark().copyWith(
                       textTheme: GoogleFonts.ralewayTextTheme(
-                          TextTheme(bodyText1: TextStyle(color: Colors.white))))
+                          const TextTheme(bodyText1: TextStyle(color: Colors.white))))
                   : ThemeData.light()
                       .copyWith(textTheme: GoogleFonts.ralewayTextTheme()),
             ).modular());

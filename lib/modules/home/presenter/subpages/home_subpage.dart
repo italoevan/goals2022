@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
 import 'package:goals_2022/domain/entities/goal.dart';
+import 'package:goals_2022/modules/home/core/consts/home_routes.dart';
 import 'package:goals_2022/modules/home/presenter/components/subpages/home/goal_component.dart';
-import 'package:goals_2022/modules/home/presenter/pages/home_controller.dart';
+import 'package:goals_2022/modules/home/presenter/pages/home/home_controller.dart';
+import 'package:goals_2022/modules/home/utils/navigator/home_navigator.dart';
 import 'package:goals_2022/shared/themes/app_theme.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
 class HomeSubpage extends StatefulWidget {
   final HomeController controller;
-  const HomeSubpage({Key? key, required this.controller}) : super(key: key);
+  final HomeNavigator navigator = Modular.get();
+  HomeSubpage({Key? key, required this.controller}) : super(key: key);
 
   @override
   State<HomeSubpage> createState() => _HomeSubpageState();
@@ -55,59 +59,96 @@ class _HomeSubpageState extends State<HomeSubpage> {
       ],
     );
   }
-}
 
-Widget _buildGoalsList(List<Goal>? list) {
-  if (list != null && list.isEmpty) {
-    return const Text("Empty Goals");
+  ValueListenableBuilder _buildProgressWidget(
+      BuildContext context, HomeController controller) {
+    ValueNotifier _isClosed = ValueNotifier(false);
+
+    return ValueListenableBuilder(
+        valueListenable: _isClosed,
+        builder: (context, _, w) {
+          switch (_isClosed.value) {
+            case true:
+              return Center(
+                child: SizedBox(
+                  height: 20,
+                  child: IconButton(
+                    icon: const Icon(Icons.arrow_circle_down_sharp),
+                    onPressed: () => _isClosed.value = false,
+                  ),
+                ),
+              );
+            case false:
+              return Container(
+                width: MediaQuery.of(context).size.width,
+                height: 300,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.black.withOpacity(0.9)),
+                child: Stack(
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        CircularPercentIndicator(
+                          animation: true,
+                          center: Image.asset(
+                            "lib/shared/assets/rocket.png",
+                            height: 55,
+                          ),
+                          radius: 100,
+                          percent: controller.donePercentage,
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Center(
+                            child: Obx(() => controller.isLoading
+                                ? const Text("")
+                                : Text(
+                              "Done ${controller.doneText}",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText1
+                                  ?.copyWith(
+                                  color: Colors.white, fontSize: 20),
+                            ))),
+                      ],
+                    ),
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: IconButton(
+                          onPressed: () => _isClosed.value = true,
+                          icon: const Icon(Icons.arrow_upward_outlined)),
+                    )
+                  ],
+                ),
+              );
+          }
+          return Container();
+        });
   }
 
-  return Expanded(
-    child: ListView.separated(
-        primary: false,
-        shrinkWrap: true,
-        itemCount: list!.length,
-        separatorBuilder: (context, index) => const Divider(
-              color: Colors.transparent,
-            ),
-        itemBuilder: (context, index) {
-          return GoalComponent(list[index]);
-        }),
-  );
-}
+  Widget _buildGoalsList(List<Goal>? list) {
+    if (list != null && list.isEmpty) {
+      return const Text("Empty Goals");
+    }
 
-Widget _buildProgressWidget(BuildContext context, HomeController controller) {
-  return Container(
-    width: MediaQuery.of(context).size.width,
-    height: 300,
-    decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        color: Colors.black.withOpacity(0.9)),
-    child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        CircularPercentIndicator(
-          animation: true,
-          center: Image.asset(
-            "lib/shared/assets/rocket.png",
-            height: 55,
-          ),
-          radius: 100,
-          percent: 0.9,
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-        Obx(() => controller.isLoading
-            ? const Text("")
-            : Text(
-                "Goals ${controller.goals.length}",
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyText1
-                    ?.copyWith(color: Colors.white, fontSize: 20),
-              )),
-      ],
-    ),
-  );
+    return Expanded(
+      child: ListView.separated(
+          primary: false,
+          shrinkWrap: true,
+          itemCount: list!.length,
+          separatorBuilder: (context, index) => const Divider(
+                color: Colors.transparent,
+              ),
+          itemBuilder: (context, index) {
+            return GoalComponent(list[index],
+                onTap: (value) => widget.navigator.toGoalEdit());
+          }),
+    );
+  }
+
+
 }

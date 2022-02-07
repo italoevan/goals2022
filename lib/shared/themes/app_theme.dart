@@ -9,6 +9,7 @@ class AppTheme extends ChangeNotifier {
   bool? persistedValue;
   bool isDark = false;
 
+  ///A singleton of Theme used to change app theme
   static final AppTheme appTheme = AppTheme();
 
   void changeTheme() async {

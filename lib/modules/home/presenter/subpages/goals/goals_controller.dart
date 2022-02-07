@@ -2,7 +2,7 @@ import 'package:get/get.dart';
 import 'package:goals_2022/domain/entities/goal.dart';
 import 'package:goals_2022/infra/datasource/goal_dao.dart';
 import 'package:flutter/material.dart';
-import 'package:goals_2022/modules/home/presenter/pages/home_controller.dart';
+import 'package:goals_2022/modules/home/presenter/pages/home/home_controller.dart';
 
 abstract class GoalsController {
   abstract Goal? goal;
