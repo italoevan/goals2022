@@ -73,7 +73,7 @@ class _HomeSubpageState extends State<HomeSubpage> {
                 child: SizedBox(
                   height: 20,
                   child: IconButton(
-                    icon: const Icon(Icons.arrow_circle_down_sharp),
+                    icon: const Icon(Icons.arrow_downward_outlined),
                     onPressed: () => _isClosed.value = false,
                   ),
                 ),
@@ -145,7 +145,7 @@ class _HomeSubpageState extends State<HomeSubpage> {
               ),
           itemBuilder: (context, index) {
             return GoalComponent(list[index],
-                onTap: (value) => widget.navigator.toGoalEdit());
+                onTap: (value) => widget.navigator.toGoalEdit(arg: widget.controller.goals[index]));
           }),
     );
   }

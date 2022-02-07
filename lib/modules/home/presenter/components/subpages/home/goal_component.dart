@@ -2,18 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:goals_2022/domain/entities/goal.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class GoalComponent extends StatelessWidget {
+class GoalComponent extends StatefulWidget {
   final Goal goal;
   final Function(int) onTap;
 
-  const GoalComponent(this.goal, {Key? key, required this.onTap})
-      : super(key: key);
+  GoalComponent(this.goal, {Key? key, required this.onTap}) : super(key: key);
+
+  @override
+  State<GoalComponent> createState() => _GoalComponentState();
+}
+
+class _GoalComponentState extends State<GoalComponent> {
+
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        onTap(goal.id!);
+        widget.onTap(widget.goal.id!);
       },
       child: Container(
         padding: const EdgeInsets.all(4),
@@ -46,27 +52,42 @@ class GoalComponent extends StatelessWidget {
               ),
             ),
           ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                goal.name,
-                style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 17),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    widget.goal.name,
+                    style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 17),
+                  ),
+                  widget.goal.motivationalPhrase != null
+                      ? Text(
+                          widget.goal.motivationalPhrase!,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyText1!
+                              .copyWith(color: Colors.white),
+                        )
+                      : const SizedBox(),
+                ],
               ),
-              goal.motivationalPhrase != null
-                  ? Text(
-                      goal.motivationalPhrase!,
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyText1!
-                          .copyWith(color: Colors.white),
-                    )
-                  : const SizedBox()
+              IconButton(
+                  onPressed: () {
+                    setState(() {
+                      widget.goal.done = ! widget.goal.done!;
+                    });
+                  },
+                  icon: Icon(
+                    Icons.done,
+                    color: widget.goal.done! ? Colors.blue : Colors.white,
+                  ))
             ],
-          )
+          ),
         ]),
       ),
     );

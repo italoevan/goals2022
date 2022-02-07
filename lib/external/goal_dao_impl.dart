@@ -47,4 +47,14 @@ class GoalDaoImpl implements GoalDao {
     }
     return null;
   }
+
+  @override
+  Future update(Goal goal) async {
+    Database? db = await _database;
+
+    if (db != null) {
+      await db
+          .update(table, goal.toMap(), where: "id = ?", whereArgs: [goal.id]);
+    }
+  }
 }

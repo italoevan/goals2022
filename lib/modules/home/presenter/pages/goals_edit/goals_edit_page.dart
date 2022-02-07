@@ -3,6 +3,7 @@ import 'package:goals_2022/modules/home/presenter/pages/goals_edit/goals_edit_co
 
 class GoalsEditPage extends StatefulWidget {
   final GoalsEditController controller;
+
   const GoalsEditPage({Key? key, required this.controller}) : super(key: key);
 
   @override
@@ -15,6 +16,19 @@ class _GoalsEditPageState extends State<GoalsEditPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Edit "),
+      ),
+      body: Column(
+        children: [
+          TextFormField(
+            decoration: const InputDecoration(labelText: "Name"),
+            controller: widget.controller.nameController,
+          ),
+          TextFormField(
+            decoration: const InputDecoration(labelText: "Motivational phrase"),
+            controller: widget.controller.motivationalController,
+          ),
+          ElevatedButton(onPressed: widget.controller.save, child: const Text("Save"))
+        ],
       ),
     );
   }

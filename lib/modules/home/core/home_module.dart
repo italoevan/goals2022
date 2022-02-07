@@ -11,11 +11,11 @@ import 'package:goals_2022/modules/home/utils/navigator/home_navigator.dart';
 class HomeModule extends Module {
   @override
   List<Bind<Object>> get binds => [
-        Bind((i) => HomeControllerImpl(Modular.get())),
-        Bind((i) => GoalDaoImpl()),
+        Bind.singleton((i) => HomeControllerImpl(Modular.get())),
+        Bind.singleton((i) => GoalDaoImpl()),
         Bind((i) =>
             GoalsControllerImpl(dao: Modular.get(), controller: Modular.get())),
-        Bind<GoalsEditController>((i) => GoalsEditControllerImpl()),
+        Bind.factory<GoalsEditController>((i) => GoalsEditControllerImpl()),
         Bind<HomeNavigator>((i) => HomeNavigatorImpl())
       ];
 
