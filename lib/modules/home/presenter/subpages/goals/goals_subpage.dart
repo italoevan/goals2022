@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:goals_2022/modules/home/presenter/pages/home_controller.dart';
 import 'package:goals_2022/modules/home/presenter/subpages/goals/goals_controller.dart';
 
 class GoalsSubpage extends StatelessWidget {

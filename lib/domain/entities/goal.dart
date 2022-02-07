@@ -23,4 +23,9 @@ class Goal {
       "motivationalPhrase": this.motivationalPhrase,
     };
   }
+
+  @override
+  String toString() {
+    return "id: $id , name: $name";
+  }
 }
