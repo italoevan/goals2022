@@ -1,4 +1,6 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AppTheme extends ChangeNotifier {
@@ -28,5 +30,14 @@ class AppTheme extends ChangeNotifier {
       isDark = persistedValue ?? false;
       notifyListeners();
     }
+  }
+
+  static ThemeData getCurrentTheme() {
+    var theme = AppTheme.appTheme.isDark
+        ? ThemeData.dark().copyWith(
+            textTheme: GoogleFonts.ralewayTextTheme(
+                const TextTheme(bodyText1: TextStyle(color: Colors.white))))
+        : ThemeData.light().copyWith(textTheme: GoogleFonts.ralewayTextTheme());
+    return theme;
   }
 }

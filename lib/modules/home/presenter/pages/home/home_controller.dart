@@ -10,6 +10,7 @@ abstract class HomeController {
   abstract List<Goal> goals;
   abstract int currentIndex;
   abstract bool isLoading;
+  void iconTap(Goal goal);
   String get doneText;
   double get donePercentage;
 }
@@ -18,7 +19,6 @@ class HomeControllerImpl implements HomeController {
   final GoalDao dao;
   // ignore: prefer_final_fields
   var _isLoading = false.obs;
-  bool _valor = false;
 
   @override
   void refreshPage() async => await _read();
@@ -82,8 +82,6 @@ class HomeControllerImpl implements HomeController {
     isLoading = false;
   }
 
-  var teste = false.obs;
-
   @override
   bool get isLoading => _isLoading.value;
 
@@ -94,4 +92,10 @@ class HomeControllerImpl implements HomeController {
 
   @override
   List<Goal> goals = <Goal>[];
+
+  @override
+  void iconTap(Goal goal) async {
+    await dao.update(goal);
+    refreshPage();
+  }
 }

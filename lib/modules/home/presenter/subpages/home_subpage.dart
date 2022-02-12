@@ -62,7 +62,6 @@ class _HomeSubpageState extends State<HomeSubpage> {
 
   ValueListenableBuilder _buildProgressWidget(
       BuildContext context, HomeController controller) {
-
     ValueNotifier _isClosed = ValueNotifier(false);
     return ValueListenableBuilder(
         valueListenable: _isClosed,
@@ -145,6 +144,7 @@ class _HomeSubpageState extends State<HomeSubpage> {
               ),
           itemBuilder: (context, index) {
             return GoalComponent(list[index],
+                iconTap: widget.controller.iconTap,
                 onTap: (value) => widget.navigator
                     .toGoalEdit(arg: widget.controller.goals[index]));
           }),

@@ -5,7 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 class GoalComponent extends StatefulWidget {
   final Goal goal;
   final Function(int) onTap;
-  final VoidCallback? iconTap;
+  final Function(Goal goal)? iconTap;
   const GoalComponent(this.goal, {Key? key, required this.onTap, this.iconTap})
       : super(key: key);
 
@@ -30,7 +30,6 @@ class _GoalComponentState extends State<GoalComponent> {
                 blurRadius: 1,
               )
             ],
-            
             gradient: const LinearGradient(
                 begin: Alignment.centerRight,
                 end: Alignment.centerLeft,
@@ -81,10 +80,11 @@ class _GoalComponentState extends State<GoalComponent> {
                     setState(() {
                       widget.goal.done = !widget.goal.done!;
                     });
-                    Function? iconTap = widget.iconTap;
+
+                    Function(Goal goal)? iconTap = widget.iconTap;
 
                     if (iconTap != null) {
-                      iconTap();
+                      iconTap(widget.goal);
                     }
                   },
                   icon: Icon(
