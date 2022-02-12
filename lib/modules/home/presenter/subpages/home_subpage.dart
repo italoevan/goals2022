@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
 import 'package:goals_2022/domain/entities/goal.dart';
-import 'package:goals_2022/modules/home/core/consts/home_routes.dart';
 import 'package:goals_2022/modules/home/presenter/components/subpages/home/goal_component.dart';
 import 'package:goals_2022/modules/home/presenter/pages/home/home_controller.dart';
 import 'package:goals_2022/modules/home/utils/navigator/home_navigator.dart';
@@ -90,15 +89,17 @@ class _HomeSubpageState extends State<HomeSubpage> {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        CircularPercentIndicator(
-                          animation: true,
-                          center: Image.asset(
-                            "lib/shared/assets/rocket.png",
-                            height: 55,
-                          ),
-                          radius: 100,
-                          percent: controller.donePercentage,
-                        ),
+                        Obx(() => controller.isLoading
+                            ? Container()
+                            : CircularPercentIndicator(
+                                animation: true,
+                                center: Image.asset(
+                                  "lib/shared/assets/rocket.png",
+                                  height: 55,
+                                ),
+                                radius: 100,
+                                percent: controller.donePercentage,
+                              )),
                         const SizedBox(
                           height: 10,
                         ),
