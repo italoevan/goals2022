@@ -19,7 +19,7 @@ class GoalDaoImpl implements GoalDao {
   }
 
   @override
-  Future insert(Goal goal) async {
+  Future create(Goal goal) async {
     Database? db = await _database;
 
     if (db != null) {
@@ -55,6 +55,15 @@ class GoalDaoImpl implements GoalDao {
     if (db != null) {
       await db
           .update(table, goal.toMap(), where: "id = ?", whereArgs: [goal.id]);
+    }
+  }
+
+  @override
+  Future<void> delete(int id) async {
+    Database? db = await _database;
+
+    if (db != null) {
+      await db.delete(table, where: "id = ?", whereArgs: [id]);
     }
   }
 }

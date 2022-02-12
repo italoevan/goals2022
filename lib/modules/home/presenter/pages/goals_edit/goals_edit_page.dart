@@ -16,19 +16,32 @@ class _GoalsEditPageState extends State<GoalsEditPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Edit "),
-      ),
-      body: Column(
-        children: [
-          TextFormField(
-            decoration: const InputDecoration(labelText: "Name"),
-            controller: widget.controller.nameController,
-          ),
-          TextFormField(
-            decoration: const InputDecoration(labelText: "Motivational phrase"),
-            controller: widget.controller.motivationalController,
-          ),
-          ElevatedButton(onPressed: widget.controller.save, child: const Text("Save"))
+        actions: [
+          IconButton(
+              onPressed: widget.controller.remove,
+              icon: const Icon(
+                Icons.remove_circle,
+                color: Colors.red,
+              ))
         ],
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            TextFormField(
+              decoration: const InputDecoration(labelText: "Name"),
+              controller: widget.controller.nameController,
+            ),
+            TextFormField(
+              decoration:
+                  const InputDecoration(labelText: "Motivational phrase"),
+              controller: widget.controller.motivationalController,
+            ),
+            ElevatedButton(
+                onPressed: widget.controller.save, child: const Text("Save"))
+          ],
+        ),
       ),
     );
   }

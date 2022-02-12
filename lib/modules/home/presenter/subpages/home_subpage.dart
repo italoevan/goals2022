@@ -120,7 +120,10 @@ class _HomeSubpageState extends State<HomeSubpage> {
                       alignment: Alignment.bottomCenter,
                       child: IconButton(
                           onPressed: () => _isClosed.value = true,
-                          icon: const Icon(Icons.arrow_upward_outlined)),
+                          icon: const Icon(
+                            Icons.arrow_upward_outlined,
+                            color: Colors.white,
+                          )),
                     )
                   ],
                 ),

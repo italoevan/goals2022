@@ -11,6 +11,7 @@ abstract class GoalsEditController {
   abstract TextEditingController nameController;
 
   Future<void> save();
+  Future<void> remove();
 }
 
 class GoalsEditControllerImpl implements GoalsEditController {
@@ -34,6 +35,12 @@ class GoalsEditControllerImpl implements GoalsEditController {
         name: nameController.text,
         motivationalPhrase: motivationalController.text,
         id: goal.id));
+    controller.refreshPage();
+  }
+
+  @override
+  Future<void> remove() async {
+    await dao.delete(goal.id!);
     controller.refreshPage();
   }
 }

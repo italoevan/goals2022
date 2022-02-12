@@ -4,7 +4,7 @@ import 'package:goals_2022/core/app_module.dart';
 import 'package:goals_2022/shared/themes/app_theme.dart';
 
 void main() {
-  runApp(ModularApp(module: AppModule(), child: MyApp()));
+  runApp(ModularApp(module: AppModule(), child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
