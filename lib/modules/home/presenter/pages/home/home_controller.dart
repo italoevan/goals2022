@@ -18,11 +18,12 @@ class HomeControllerImpl implements HomeController {
   final GoalDao dao;
   // ignore: prefer_final_fields
   var _isLoading = false.obs;
+  bool _valor = false;
 
   @override
   void refreshPage() async => await _read();
 
-  HomeControllerImpl(this.dao) {}
+  HomeControllerImpl(this.dao);
 
   var index = 0.obs;
 
@@ -35,31 +36,29 @@ class HomeControllerImpl implements HomeController {
   }
 
   @override
-  String get doneText{
-
+  String get doneText {
     int _dones = 0;
     int _goalsLengh = goals.length;
 
     for (Goal element in goals) {
-      element.done! ? _dones+= 1 : DoNothingAction();
+      element.done! ? _dones++ : DoNothingAction();
     }
 
     return "$_dones / $_goalsLengh";
-
   }
 
   @override
-  double get donePercentage{
-
+  double get donePercentage {
     int _dones = 0;
     int _goalsLengh = goals.length;
 
     goals.forEach((element) {
-      element.done! ? _dones+= 1 : DoNothingAction();
+      element.done! ? _dones++ : DoNothingAction();
     });
 
-    return (_dones * 100) / _goalsLengh;
+    double result = (_dones * 100) / _goalsLengh * 0.010;
 
+    return result;
   }
 
   @override

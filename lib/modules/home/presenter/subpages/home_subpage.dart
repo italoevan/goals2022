@@ -62,8 +62,8 @@ class _HomeSubpageState extends State<HomeSubpage> {
 
   ValueListenableBuilder _buildProgressWidget(
       BuildContext context, HomeController controller) {
-    ValueNotifier _isClosed = ValueNotifier(false);
 
+    ValueNotifier _isClosed = ValueNotifier(false);
     return ValueListenableBuilder(
         valueListenable: _isClosed,
         builder: (context, _, w) {
@@ -107,13 +107,13 @@ class _HomeSubpageState extends State<HomeSubpage> {
                             child: Obx(() => controller.isLoading
                                 ? const Text("")
                                 : Text(
-                              "Done ${controller.doneText}",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyText1
-                                  ?.copyWith(
-                                  color: Colors.white, fontSize: 20),
-                            ))),
+                                    "Done ${controller.doneText}",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyText1
+                                        ?.copyWith(
+                                            color: Colors.white, fontSize: 20),
+                                  ))),
                       ],
                     ),
                     Align(
@@ -145,10 +145,9 @@ class _HomeSubpageState extends State<HomeSubpage> {
               ),
           itemBuilder: (context, index) {
             return GoalComponent(list[index],
-                onTap: (value) => widget.navigator.toGoalEdit(arg: widget.controller.goals[index]));
+                onTap: (value) => widget.navigator
+                    .toGoalEdit(arg: widget.controller.goals[index]));
           }),
     );
   }
-
-
 }
